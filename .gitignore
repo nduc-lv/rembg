@@ -18,3 +18,4 @@ __pycache__/
 .tox
 .cache
 .mypy_cache
+background.jpg

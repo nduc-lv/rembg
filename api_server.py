@@ -127,17 +127,20 @@ async def remove_and_add_background(
         # Apply background
         result_img = apply_background_image(foreground_img, bg_path)
 
-        # Convert back to bytes
+        # Keep the original image format
+        original_format = image_file.content_type.split('/')[-1].upper()
+        if original_format == 'JPEG':
+            result_img = result_img.convert('RGB')
+
         bio = io.BytesIO()
-        result_img.save(bio, "PNG")
+        result_img.save(bio, original_format)
         bio.seek(0)
         output_data = bio.read()
 
-        # Return the processed image as PNG
         return Response(
             content=output_data,
-            media_type="image/png",
-            headers={"Content-Disposition": "attachment; filename=with_background.png"}
+            media_type=image_file.content_type,
+            headers={"Content-Disposition": f"attachment; filename=with_background.{original_format.lower()}"}
         )
 
     except Exception as e:
