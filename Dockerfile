@@ -11,6 +11,5 @@ COPY . .
 RUN python -m pip install ".[cpu,cli]"
 RUN rembg d u2net
 
-EXPOSE 7000
-ENTRYPOINT ["rembg"]
-CMD ["--help"]
+EXPOSE 9001
+CMD ["python", "api_server.py"]
